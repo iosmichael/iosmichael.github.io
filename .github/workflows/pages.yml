@@ -19,7 +19,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm ci
+          registry-url: 'https://registry.npmjs.org/'
+      - name: Configure npm registry
+        run: |
+          npm config set registry https://registry.npmjs.org/
+          npm cache clean --force
+      - name: Install dependencies
+        run: npm install --no-package-lock
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
